@@ -1,0 +1,73 @@
+query GetAllProducts{
+  Product{
+    name
+  }
+}
+
+query GetAllPeople{
+  Person{
+    name
+  }
+}
+
+mutation CreatePersonSally{
+  CreatePerson(name: "Sally", age: 35){
+    _id
+    name
+  }
+}
+
+mutation CreatePersonJimmy{
+  CreatePerson(name: "Jimmy", age: 30){
+    _id
+    name
+  }
+}
+
+mutation CreateProductEggs{
+  CreateProduct(name: "Eggs", category: "groceries", price: 30){
+    _id
+    name
+  }
+}
+
+mutation CreateProductBrownies{
+  CreateProduct(name: "Brownies", category: "treats", price: 100){
+    _id
+    name
+  }
+}
+
+mutation SallyBoughtEggs{
+  MergePersonBuys(from: {name: "Sally"}, to: {name: "Eggs"}, data: {
+    date: { formatted: "2020-10-09T01:01:23Z"}
+  }){
+    from {
+      name
+    }
+    to{
+      name
+    }
+  }
+}
+
+mutation SallyBoughtBrownies{
+  MergePersonBuys(from: {name: "Sally"}, to: {name: "Brownies"}, data: {
+    date: { formatted: "2020-10-09T01:01:23Z"}
+  }){
+    from {
+      name
+    }
+    to{
+      name
+    }
+  }
+}
+
+query ViewSimiliarProductsPeopleAlsoBought {
+  Product(name: "Eggs"){
+    relatedProducts{
+      name
+    }
+  }
+}

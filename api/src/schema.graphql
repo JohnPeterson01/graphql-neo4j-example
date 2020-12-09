@@ -1,0 +1,25 @@
+type Person {
+  name: ID!
+  age: Int!
+  buys: [ProductsBought]
+}
+
+type Product {
+  name: ID!
+  category: String
+  price: Int
+  boughtBy: [Person]
+  relatedProducts(first: Int = 3, offset: Int = 0): [Product] @cypher(
+      statement: """
+        MATCH (this)<-[:BOUGHT]-(:Person)-[:BOUGHT]->(q:Product)
+        WITH q, COUNT(*) AS score ORDER BY score DESC
+        RETURN q
+      """
+    )
+}
+
+type ProductsBought @relation(name: "BOUGHT") {
+  from: Person
+  to: Product
+  date: DateTime
+}
